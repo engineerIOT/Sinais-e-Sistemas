@@ -1,46 +1,65 @@
-close all
-clear all
+    
+N=50
+%define the angular frequency
+    w=(2*pi)/6;
+    
+    %define the time for calculate the fourier seriers coefficients
+    t=-10:0.001:10;
+    
+    %define the expression (it is little bit tricky)
+    x1(t>-2&t<-1) = 1;
+    x2(t<2&t>1)   =-1;
 
-n=256;
-M=6
-intervalo = -M:0.001:M;
+    % preenchimento de zero para equalização de comprimento
+
+    x11=[x1,zeros(1,length(t)-length(x1))];
+    x22=[x2,zeros(1,length(t)-length(x2))];
+    x=x11+x22;
  
-indice = 1;
-T= 6;
-w=2.0*pi/T;
- 
-for t= intervalo
-    valor = 0.0;
-    for k = -n:n;
-        if (k ~=0.0)
-            %termo = (i*(-1+ exp(i*k*w)*( -1+ exp(i*k*w))));
-            %termo2= (exp(i*k*w)+ exp(2*i*k*w)+1);
-            %termo3= (exp(i*k*(t-2)*w));
-            
-            %termo = (i*(-1+ exp(i*k*w)));
-            %termo2 = exp((i*k*w*(t-2)));
-            
-            termo = (i*(-1+ exp(i*k*w))*(-1+ exp(i*k*w)));
-            termo2= (exp(i*k*w)+ exp(2*i*k*w)+1);
-            termo3 = exp((i*k*w*(t-2)));
-            
-        valor = (valor +( termo*termo2*termo3 )*(-1) / (6*k*w));
-        else
-            valor = valor +1;
-            
-        end
+    %fourier series for first 25
+    for k=1:1:N
+        A(k)=(trapz(t,x.*exp(-1i*w*k*t)))/6;
     end
-    res (indice) = (valor-1);
-    indice = indice +1;
-end
+    
+    k= 1:1:N;
+    
+    %for  ploting fourier series representation.
+    f=0;
+    for p=1:1:100
+        cp= 1i*(cos(p*w)-cos(2*p*w))/(p*w);% p-th harmonics.
+        f=f+(cp*(exp(1i*w*p*t)));%add harmonics
+    end
+    
+    figure(1)
+    plot(t,x);
+    axis([-4,4,-2,2]);
+    grid on;
+    
+    figure(2)
+    stem(k,abs(A));
+    grid on;
+    
+      figure(3)
+    stem(k,angle(A));
+    grid on;
+   x = inline('(-(t>=1).*(t<2))+((t>=-2).*(t<-1))','t');
+    figure(4)
+    plot(t,f,t,x(t));
+    grid on;
 
-figure(1)
-plot (intervalo, res);
+    
 
-figure(2)
-stem (intervalo, abs(res));
+ x = inline('(-(t>=1).*(t<2))+((t>=-2).*(t<-1))','t');
+ 
+ 
+Fs=1000;
 
-figure(3)
-stem (intervalo, angle(res));
-   
+ 
+%plotar o gráfico
+figure(5)
+plot(t,f/1.5,t,x(t))
+xlabel('t');
+ylabel('x(t)');
+axis ([-3 3 -2 2]);
+%grid;
 
