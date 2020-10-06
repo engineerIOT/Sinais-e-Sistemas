@@ -11,7 +11,7 @@ yr = [0 1 0 1 0 1 0 1 0],...
 T= 2; 
 
 %Número de harmônicas(n)
-n=9;                         
+n=50;                         
 
 %Valor do limite de tempo
 M=3;
@@ -75,12 +75,13 @@ figure(1);
 %Plotando a Série Exponencial de Fourier da função (g) calulada no software 
 %em função do intervalo (em vermelho)
 plot (intervalo, res,'r');
+hold;
 
 %Mantém  no mesmo gráfico a próxima plotagem
-hold;
+
 %Plotando o sinal original (traçejado e preto)
 plot(tr,yr,'k:'); 
-
+hold;
 %titulo para o elemento do eixo x                   
 xlabel('time (seconds)');
 
@@ -93,15 +94,35 @@ title(['Gráfico da Série Exponencial de Fourier truncada com (n = {',num2str(n),
 %definindo os limites dos eixos do gráfico da figura 1
 axis ([-M M -0.2 1.2]);
 
-%Os gráficos mostram que o comportamento peculiar na síntese da função dente-de-serra é
-%inerente ao comportamento da série de fourier, devido a convergência não
-%uniforme nos pontos de descontinuidade. 
+%intervalo de tempo por oscilação
+t =(-4:Fs:4);
 
-%Quando o número de termos (n) é aumentado, o sobre-sinal permanece apenas
-%na proximidade do salto de descontinuidade. Para a função (g),
-%aumentando-se (n), diminui-se o sobre-sinal próximo a borda de subida, mas
-%não próximo a borda de descida. O salo de descontinuidade que causa o
-%efeito de Gibbs. Um sinal continuo, não importa, quão rápido seja sua
-%subida, sempre pode ser representado pela série de Fourier em qualquer
-%ponto, dentro de um pequeno erro, quando se aumenta (n). Isso não é o caso
-%quando um verdadeiro salto de descontinuidade está presente.
+%Definir função da figura (g) 
+x = inline('(t.*(t>=0).*(t<2))','t');
+
+%Freqüência de amostragem
+Fs = 0.001;
+
+%plotar o gráfico
+figure(3)
+
+%Plotando a função da figura (g) em função do tempo 
+%Criando a figura 1
+plot(t,x(t))
+
+%titulo para o elemento do eixo x                   
+xlabel('t(s)');
+
+%titulo para o elemento do eixo y                  
+ylabel('x(t)');
+
+axis ([-1 M -0.2 2.2]);
+
+%titulo para a figura 1                   
+title(['Gráfico da função da figura (g) (n = {',num2str(n),'})']);
+
+%Calcula a integral 
+Potencia_g = (4/T)*sum((x(t).^2*Fs))
+
+%Calcula a distorção harmônica 
+Dtotal = (Potencia_g/n)*100

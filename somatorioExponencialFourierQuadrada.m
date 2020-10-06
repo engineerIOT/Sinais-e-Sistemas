@@ -87,8 +87,7 @@ hold;
 plot(teste,x,'k:'); 
  
 %titulo para o elemento do eixo x                   
-xlabel('t');
-
+xlabel('t(s)');
 
 %titulo para o elemento do eixo y                   
 ylabel(['x(t) approximation']);
@@ -99,7 +98,40 @@ title(['Gráfico da Série Exponencial de Fourier truncada com (n = {',num2str(n),
 %definindo os limites dos eixos do gráfico da figura 1
 axis ([-M M -1.2 1.2]);
 
-%grid;
+%Definir função da figura (e) 
+x = inline('(-(t>=1).*(t<2))+((t>=-2).*(t<-1))','t');
+
+%Freqüência de amostragem
+Fs = 0.001;
+
+%intervalo de tempo por oscilação
+t =(-4:Fs:4);
+
+%plotar o gráfico
+figure(2)
+
+%Plotando a série função da figura (e) em função do tempo 
+%Criando a figura 2
+plot(t,x(t))
+
+%titulo para o elemento do eixo x                   
+xlabel('t(s)');
+
+%titulo para o elemento do eixo y                  
+ylabel('x(t)');
+
+%definindo os limites dos eixos do gráfico da figura 2
+axis ([-3 3 -1.2 1.2]);
+
+%titulo para a figura 1                   
+title(['Gráfico da função da figura (e) (n = {',num2str(n),'})']);
+
+%Calcula a integral 
+Potencia_g = (4/T)*sum((x(t).^2*Fs))
+
+%Calcula a distorção harmônica 
+Dtotal = (Potencia_g/n)*100
+
 
 
 
