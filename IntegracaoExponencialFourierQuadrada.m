@@ -4,8 +4,15 @@ clear all
 clc
 clear
 
+%Criando comunicacao com o usuario
+prompt = 'Usuário favor digitar o numero de harmônicas a serem utilizadas na sintetização do sinal da figura (e): ';
+ 
+%passando o valor de entrada para a variavel
+valorDigitado = input(prompt)
+ 
+ 
 %Número de harmônicas(n)
-n=1;
+n=valorDigitado;                         
 
 %Valor do limite de tempo
 M=6;
@@ -169,7 +176,7 @@ M=20;
 x=(-(t>=1).*(t<2))+((t>=-2).*(t<-1)); 
  
 %Plotando na mesma figura todos os gráficos
-figure(4)
+figure(3)
  
 %Algoritmo para calcular a Transformada rápida de Fourier da função rampa e 
 %aproximar o espectro exponencial de Fourier %para -M<=N<=M

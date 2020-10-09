@@ -10,8 +10,15 @@ yr = [0 1 0 1 0 1 0 1 0],...
 %Período
 T= 2; 
 
+%Criando comunicacao com o usuario
+prompt = 'Usuário favor digitar o numero de harmônicas a serem utilizadas na sintetização do sinal da figura (g): ';
+
+%passando o valor de entrada para a variavel
+valorDigitado = input(prompt)
+
+
 %Número de harmônicas(n)
-n=1;                         
+n=valorDigitado;                         
 
 %Valor do limite de tempo
 M=3;
@@ -152,7 +159,7 @@ M=20;
 x = (t.*(t>=0).*(t<2));                
 
 %Plotando na mesma figura todos os gráficos
-figure(4)
+figure(3)
 
 %Algoritmo para calcular a Transformada rápida de Fourier da função rampa e 
 %aproximar o espectro exponencial de Fourier %para -M<=N<=M
