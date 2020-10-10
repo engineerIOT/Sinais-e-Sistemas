@@ -3,7 +3,7 @@ clear all
  
 clc
 clear
-
+ 
 %Criando comunicacao com o usuario
 prompt = 'Usuário favor digitar o numero de harmônicas a serem utilizadas na sintetização do sinal da figura (e): ';
  
@@ -13,22 +13,22 @@ valorDigitado = input(prompt)
  
 %Número de harmônicas(n)
 n=valorDigitado;                         
-
+ 
 %Valor do limite de tempo
 M=6;
-
+ 
 %Definindo o intervalo de tempo
 intervalo = -M:0.001:M;
-
+ 
 %Freqüência de amostragem
 Fs = 0.001;
-
+ 
 %Inicio do indice 
 indice = 1;
-
+ 
 %Período de 6 segundos para a figura (e)
 T= 6;
-
+ 
 %Freqüência Fundamental
 w=2.0*pi/T;
  
@@ -36,7 +36,7 @@ w=2.0*pi/T;
 %repassando os parâmetros de intervalo para a variável t 
 for t= intervalo
     
-    %a variável da Série Exponencial de Fourier da função (g) com valor 0 
+    %a variável da Série Exponencial de Fourier da função (e) com valor 0 
      valor = 0.0;
      
          %a variável k [e limitada pelos valores de k para contemplar os 
@@ -59,7 +59,7 @@ for t= intervalo
             %incrementa o valor da função (e)
             valor = valor +1;
           
-        %fim do tratamento da função (g)    
+        %fim do tratamento da função (e)    
         end
         
     %fim do repasse dos valores de n para k   
@@ -73,21 +73,21 @@ for t= intervalo
     
 %fim do loop    
 end
-
+ 
 %Plotando a série de Fourier Truncada com n aproximações
 %Definindo o intervalo de tempo para a fun;áo da figura (e)
 teste=-M:0.001:M;
-
+ 
 %Criando o sinal original (traçejado e preto) da figura (e)
 fx = -(teste>=1).*(teste<2)+(teste>=4).*(teste<5)-((teste>=-5).*(teste<-4))+((teste>=-2).*(teste<-1));
-
+ 
 %Criando a figura 1
 figure(1)
-
-%Plotando a Série Exponencial de Fourier da função (g) calulada no software 
+ 
+%Plotando a Série Exponencial de Fourier da função (e) calulada no software 
 %em função do intervalo (em vermelho)
 plot (intervalo, res,'r');
-
+ 
 %Mantém  no mesmo gráfico a próxima plotagem
 hold;
 %Plotando o sinal original (traçejado e preto)
@@ -95,7 +95,7 @@ plot(teste,fx,'k:');
  
 %titulo para o elemento do eixo x                   
 xlabel('t(s)');
-
+ 
 %titulo para o elemento do eixo y                   
 ylabel(['x(t) approximation']);
  
@@ -104,54 +104,51 @@ title(['Gráfico da Série Exponencial de Fourier truncada com (n = {',num2str(n),
  
 %definindo os limites dos eixos do gráfico da figura 1
 axis ([-M M -1.2 1.2]);
-
+ 
 %Definir função da figura (e) 
 x = inline('(-(t>=1).*(t<2))+((t>=-2).*(t<-1))','t');
-%x2= inline('((t>=-2).*(t<-1))','t');
+
 %Freqüência de amostragem
 Fs = 0.001;
-
+ 
 %intervalo de tempo por oscilação
 t =(-6/4:Fs:6/4);
-
+ 
 %plotar o gráfico
 figure(2)
-
+ 
 %Plotando a série função da figura (e) em função do tempo 
 %Criando a figura 2
 plot(t,x(t))
-
+ 
 %titulo para o elemento do eixo x                   
 xlabel('t(s)');
-
+ 
 %titulo para o elemento do eixo y                  
 ylabel('x(t)');
-
+ 
 %definindo os limites dos eixos do gráfico da figura 2
 axis ([-3 3 -1.2 1.2]);
-
-%titulo para a figura 1                   
+ 
+%titulo para a figura 2                   
 title(['Gráfico da função da figura (e) (n = {',num2str(n),'})']);
           
 xlabel('t(s)');
-
+ 
 %titulo para o elemento do eixo y                  
 ylabel('x(t)');
-
-%definindo os limites dos eixos do gráfico da figura 2
-axis ([-3 3 -1.2 1.2]);
-
-%titulo para a figura 1                   
+ 
+%titulo para a figura 2                   
 title(['Gráfico da função da figura (e) (n = {',num2str(n),'})']);
-
+ 
 %Calcula a integral 
 Potencia_g = (4/T)*sum((x(t).^2*Fs))
-
+ 
 %Calcula a distorção harmônica 
 Dtotal = ((Potencia_g)/n*n)*100
-
-Px=abs(valor)
-
+ 
+%Px=abs(valor)
+ 
 %Estabelecendo os parâmetros básicos para plotagem do Espectro Exponencial de Fourier
 %Parametros basicos
  
@@ -189,8 +186,6 @@ n = [-N_0/2:N_0/2-1]';
 %Limpar janela de figura atual
 clf; 
  
-
-
 %Linha 1 Coluna 1 da figura 
 subplot (2,2,1); 
  
@@ -273,4 +268,3 @@ xlabel('n');
  
 %titulo para o elemento do eixo y                        
 ylabel('\theta_n[rad]');
-
